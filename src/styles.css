@@ -1045,6 +1045,128 @@ html {
   line-height: 1.6;
   background: linear-gradient(180deg, rgba(245, 235, 227, 0.6), rgba(255, 255, 255, 0.4));
 }
+/* mock que leva a um projeto no ar: borda cheia em vez de tracejada, porque
+   deixou de ser espaço reservado e virou destino */
+.svc-mock-link {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  text-decoration: none;
+  border-style: solid;
+  border-color: var(--line);
+  background: var(--surface);
+  transition: border-color .3s, box-shadow .3s, transform .3s;
+}
+.svc-slide {
+  display: block;
+  position: absolute;
+  inset: 0;
+  text-decoration: none;
+}
+.svc-mock-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* topo da página é o que identifica o site; o rodapé pode ser cortado */
+  object-position: top center;
+  display: block;
+  transition: transform .5s cubic-bezier(.16,1,.3,1);
+}
+.svc-mock-link:hover {
+  border-color: var(--rosa-forte);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.svc-mock-link:hover img { transform: scale(1.04); }
+
+/* legenda sobre a imagem: gradiente escuro garante o contraste do texto
+   independente do que houver na captura */
+.svc-mock-legenda {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 44px 18px 16px;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(180deg, transparent, rgba(48, 30, 20, .82) 62%);
+}
+.svc-mock-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .82);
+}
+
+/* setas e pontos ficam acima do link que cobre o card inteiro */
+.svc-seta {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .92);
+  color: var(--titulo);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .3s, background .3s;
+}
+.svc-seta-ant { left: 12px; }
+.svc-seta-prox { right: 12px; }
+.svc-mock-link:hover .svc-seta,
+.svc-seta:focus-visible { opacity: 1; }
+.svc-seta:hover { background: #fff; }
+
+.svc-pontos {
+  position: absolute;
+  z-index: 3;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  gap: 6px;
+}
+.svc-ponto {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(255, 255, 255, .45);
+  transition: background .3s, width .3s;
+}
+.svc-ponto.ativo {
+  width: 18px;
+  border-radius: 99px;
+  background: #fff;
+}
+
+/* toque não tem hover: as setas ficam sempre visíveis */
+@media (hover: none) {
+  .svc-seta { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-mock-link:hover,
+  .svc-mock-link:hover img {
+    transform: none;
+  }
+}
+
 .svc-list {
   list-style: none;
   padding: 0;
@@ -1293,22 +1415,55 @@ html {
    ========================================================================= */
 .rv {
   opacity: 0;
-  transform: translateY(18px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.rv-up { transform: translateY(18px); }
+.rv-left { transform: translateX(-26px); }
+.rv-right { transform: translateX(26px); }
+.rv-scale { transform: translateY(14px) scale(0.97); }
+.rv-fade { transform: none; }
 .rv.is-in {
   opacity: 1;
   transform: none;
+}
+
+/* Barra de progresso de leitura: scaleX vem do React, então a animação roda
+   na composição e não recalcula layout a cada quadro. */
+.scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 70;
+  background: var(--rosa-forte);
+  transform-origin: 0 50%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* --py é escrito pelo useParallax; sem ele o valor cai em 0 e a aura fica
+   exatamente onde o layout a colocou. */
+.aura-px {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .rv {
+  .rv,
+  .rv-up,
+  .rv-left,
+  .rv-right,
+  .rv-scale {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .aura-px {
+    transform: none;
   }
   .marquee-track {
     animation: none;
@@ -1322,4 +1477,23 @@ html {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ---------- Feed do Instagram ---------- */
+.vd .ig-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+/* O script do Instagram injeta estilos inline no blockquote (margin, min-width,
+   max-width) — por isso o !important: é a única forma de encaixar na grade. */
+.vd .ig-post {
+  margin: 0 !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--shadow-sm) !important;
 }

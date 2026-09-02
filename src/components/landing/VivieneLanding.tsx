@@ -4,7 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   ArrowUpRight, Check, Menu, X, MessageCircle, Sparkles, Layers, Gauge, Figma,
   Code2, PenTool, ShieldCheck, Zap, Clock, TrendingUp, UserRound, Plus,
-  Github, Linkedin, Instagram, Mail, Dribbble, MoveHorizontal,
+  Mail, MoveHorizontal, ChevronLeft, ChevronRight,
 } from "lucide-react";
 
 
@@ -14,15 +14,16 @@ import {
 const CONFIG = {
   nome: "Viviene Diniz",
   foto: "/viviene.png",
-  fotoSobre: "sobre-mim.png",
-  whatsapp: "5531999749614", // só números: DDI + DDD + número
+  fotoSobre: "/sobre-mim.png",
+  whatsapp: "5531971983044", // só números: DDI + DDD + número
   mensagemWhats:
     "Olá Viviene! Vim pelo seu site e quero um orçamento para o meu projeto.",
-  email: "contato@agenciadiniz.com",
+  email: "viviene.diniiz@gmail.com",
   linkedin: "https://www.linkedin.com/in/vivienediniz/",
-  github: "https://github.com/",
   instagram: "https://instagram.com/agencia_diiniz",
-  dribbble: "https://dribbble.com/",
+  tiktok: "https://www.tiktok.com/@viviene_diniiz",
+  // Cole aqui a URL de cada post que deve aparecer no site (Instagram > post > ... > Copiar link).
+  instagramPosts: [] as string[],
   metricas: [
     { valor: "+200", label: "projetos entregues" },
     { valor: "100%", label: "código próprio e limpo" },
@@ -37,7 +38,11 @@ const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(
 /* ============================================================================
    🧩 Helper de animação no scroll
    ========================================================================= */
-function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
+type RvVariante = "up" | "left" | "right" | "scale" | "fade";
+
+function Reveal({ children, delay = 0, className = "", variante = "up" }: {
+  children: ReactNode; delay?: number; className?: string; variante?: RvVariante;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
@@ -55,10 +60,62 @@ function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; 
     return () => io.disconnect();
   }, []);
   return (
-    <div ref={ref} className={`rv ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={ref} className={`rv rv-${variante} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
     </div>
   );
+}
+
+/* Progresso de leitura: 0 a 1, com o scroll lido dentro do rAF para não
+   forçar layout a cada evento. */
+function useProgressoScroll() {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const medir = () => {
+      raf = 0;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setP(total > 0 ? Math.min(1, window.scrollY / total) : 0);
+    };
+    const agendar = () => { if (!raf) raf = requestAnimationFrame(medir); };
+    medir();
+    window.addEventListener("scroll", agendar, { passive: true });
+    window.addEventListener("resize", agendar);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", agendar);
+      window.removeEventListener("resize", agendar);
+    };
+  }, []);
+  return p;
+}
+
+/* Parallax: desloca o elemento em fração da rolagem. Só decoração entra aqui —
+   texto que se move junto do scroll fica difícil de ler. */
+function useParallax(fator: number) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const mover = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const centro = r.top + r.height / 2 - window.innerHeight / 2;
+      el.style.setProperty("--py", `${(-centro * fator).toFixed(1)}px`);
+    };
+    const agendar = () => { if (!raf) raf = requestAnimationFrame(mover); };
+    mover();
+    window.addEventListener("scroll", agendar, { passive: true });
+    window.addEventListener("resize", agendar);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", agendar);
+      window.removeEventListener("resize", agendar);
+    };
+  }, [fator]);
+  return ref;
 }
 
 /* ============================================================================
@@ -74,21 +131,38 @@ const SERVICOS = [
   { icon: Sparkles, categoria: "Redes sociais", titulo: "Um feed que parece de marca grande",
     texto: "Perfil sem padrão visual afasta cliente antes da primeira mensagem. Aqui, cada post segue uma identidade travada — cores, fontes e grade sempre no lugar certo.",
     mock: "Mockup: feed do Instagram com identidade aplicada",
+    projetos: [
+      { imagem: "/post.jpg" },
+    ],
     cta: "Falar sobre redes sociais",
     itens: ["Templates de feed e stories", "Paleta e tipografia aplicadas", "Grade de publicação organizada", "Arquivos prontos para postar"] },
   { icon: Zap, categoria: "Landing pages", titulo: "Uma página única, feita pra converter",
     texto: "Site institucional bonito não vende sozinho. Uma landing page é construída em volta de um objetivo: fazer o visitante chamar no WhatsApp ou preencher um formulário.",
     mock: "Mockup: landing page em desktop e mobile",
+    projetos: [
+      { link: "https://draingridguimaraes.netlify.app/", label: "Dra. Ingrid Guimarães — advocacia de família",
+        imagem: "/projeto-ingrid-guimaraes.png", acao: "ver projeto no ar" },
+    ],
     cta: "Falar sobre landing page",
     itens: ["Estrutura pensada para conversão", "Copy escrita para o seu público", "Responsivo em qualquer tela", "Botão de contato em todas as seções"] },
   { icon: Layers, categoria: "Sites e e-commerce", titulo: "Uma loja pronta pra vender",
     texto: "Configurar uma Nuvemshop sozinho consome tempo que deveria ir para o produto. Eu monto a loja, aplico sua identidade e deixo integrada ao seu domínio.",
     mock: "Mockup: página de produto da loja",
+    projetos: [
+      { imagem: "/e-commerce.jpg" },
+    ],
     cta: "Falar sobre minha loja",
     itens: ["Loja configurada na Nuvemshop", "Identidade visual aplicada", "Domínio próprio conectado", "Pagamento e frete configurados"] },
   { icon: Code2, categoria: "Sistemas e SaaS", titulo: "Quando a planilha já não aguenta",
     texto: "Ferramenta genérica resolve até certo ponto. Depois disso, o que falta é um sistema feito para o seu processo, do seu jeito, sem gambiarra.",
     mock: "Mockup: painel do sistema",
+    projetos: [
+      { link: "https://studiomaker3d.com.br/", label: "StudioMaker — gestão para estúdios 3D",
+        imagem: "/projeto-studiomaker3d.png", acao: "ver projeto no ar" },
+      { link: "https://www.figma.com/proto/R5vynUbcJHy0M7YfooS5dN/Saas-Clinica-est%C3%A9tica?node-id=1-39&t=EUmAfwXGB66hrcqX-1",
+        label: "Estética Flowers — app de clínica estética",
+        imagem: "/projeto-estetica-flowers-2.png", acao: "abrir protótipo" },
+    ],
     cta: "Falar sobre um sistema",
     itens: ["Levantamento do seu processo real", "Sistema web sob medida", "Login e controle de acesso", "Suporte depois da entrega"] },
 ];
@@ -147,6 +221,10 @@ const PROCESSO = [
   { n: "04", t: "Lançamento & suporte", d: "Publicação, configuração de domínio e analytics, entrega do código e 30 dias de acompanhamento." },
 ];
 
+/* Portfólio desativado por enquanto — o Instagram assume o lugar dele.
+   Volte para `true` quando os cases estiverem prontos. */
+const MOSTRAR_PORTFOLIO = false;
+
 const PROJETOS = [
   { tag: "SaaS", t: "StudioMaker3D", d: "ERP completo para estúdios de impressão 3D: orçamentos, pedidos, marketplaces e monitoramento de impressoras.", stack: "Next.js · Supabase" },
   { tag: "E-commerce", t: "Studio Diniz", d: "Loja própria com catálogo, checkout integrado, cálculo de frete e painel administrativo sob medida.", stack: "Next.js · Mercado Pago" },
@@ -169,12 +247,33 @@ const SOBRE_CARDS: SobreCard[] = [
   [ShieldCheck, "Foco no seu objetivo", "Toda decisão volta para a meta do projeto."],
 ];
 
-type SocialLink = [LucideIcon, string, string];
+/* ============================================================================
+   Logos de marca — o Lucide desenha ícones genéricos; marca é forma fechada,
+   então cada uma vem do glifo oficial (Simple Icons, viewBox 24).
+   ========================================================================= */
+function Marca({ size = 17, titulo, d }: { size?: number; titulo: string; d: string }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" role="img" aria-hidden="true" focusable="false">
+      <title>{titulo}</title>
+      <path d={d} />
+    </svg>
+  );
+}
+
+const D_WHATSAPP = "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z";
+
+const D_TIKTOK = "M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z";
+
+const D_INSTAGRAM = "M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 01-2.88 0 1.44 1.44 0 012.88 0z";
+
+const D_LINKEDIN = "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z";
+
+type SocialLink = [(p: { size?: number }) => ReactNode, string, string];
 const SOCIAL_LINKS: SocialLink[] = [
-  [Linkedin, CONFIG.linkedin, "LinkedIn"],
-  [Github, CONFIG.github, "GitHub"],
-  [Instagram, CONFIG.instagram, "Instagram"],
-  [Dribbble, CONFIG.dribbble, "Dribbble"],
+  [(p) => <Marca {...p} titulo="WhatsApp" d={D_WHATSAPP} />, waLink, "WhatsApp"],
+  [(p) => <Marca {...p} titulo="Instagram" d={D_INSTAGRAM} />, CONFIG.instagram, "Instagram"],
+  [(p) => <Marca {...p} titulo="TikTok" d={D_TIKTOK} />, CONFIG.tiktok, "TikTok"],
+  [(p) => <Marca {...p} titulo="LinkedIn" d={D_LINKEDIN} />, CONFIG.linkedin, "LinkedIn"],
   [Mail, `mailto:${CONFIG.email}`, "E-mail"],
 ];
 
@@ -227,6 +326,119 @@ function Metrica({ valor, label }: { valor: string; label: string }) {
         {m ? `${m[1]}${anima ? n.toLocaleString("pt-BR") : m[2]}${m[3]}` : valor}
       </div>
       <div className="hero-stat-label">{label}</div>
+    </div>
+  );
+}
+
+type Projeto = { imagem: string; link?: string; label?: string; acao?: string };
+
+declare global {
+  interface Window {
+    instgrm?: { Embeds: { process: () => void } };
+  }
+}
+
+const SCRIPT_IG = "https://www.instagram.com/embed.js";
+
+/* Embed oficial do Instagram: cada post vira um blockquote que o script deles
+   transforma em card. Sem token, sem serviço de terceiros no meio. */
+function FeedInstagram({ posts }: { posts: string[] }) {
+  useEffect(() => {
+    const processar = () => window.instgrm?.Embeds.process();
+    if (window.instgrm) {
+      processar();
+      return undefined;
+    }
+    const script =
+      document.querySelector<HTMLScriptElement>(`script[src="${SCRIPT_IG}"]`) ??
+      document.body.appendChild(
+        Object.assign(document.createElement("script"), { src: SCRIPT_IG, async: true })
+      );
+    script.addEventListener("load", processar);
+    return () => script.removeEventListener("load", processar);
+  }, [posts]);
+
+  return (
+    <div className="ig-grade mt-14">
+      {posts.map((url, i) => (
+        <Reveal key={url} delay={(i % 3) * 90} variante="scale">
+          <blockquote
+            className="instagram-media ig-post"
+            data-instgrm-permalink={url}
+            data-instgrm-version="14"
+          />
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
+/* Vitrine do serviço: com um projeto é só a imagem clicável; com vários vira
+   carrossel. Um card por vez — miniaturas lado a lado nesse espaço ficariam
+   ilegíveis. */
+/* Sem link publicado o projeto continua aparecendo, só não vira <a>:
+   link vazio é armadilha de acessibilidade e frustra quem clica. */
+function Slide({ p, categoria }: { p: Projeto; categoria: string }) {
+  const conteudo = (
+    <>
+      <img
+        src={p.imagem}
+        alt={p.label ? `Prévia do projeto ${p.label}` : `Exemplo de ${categoria.toLowerCase()}`}
+        width={1440}
+        height={1080}
+        loading="lazy"
+      />
+      {p.label && (
+        <span className="svc-mock-legenda">
+          {p.label}
+          {p.acao && (
+            <span className="svc-mock-cta">
+              {p.acao} <ArrowUpRight size={14} />
+            </span>
+          )}
+        </span>
+      )}
+    </>
+  );
+
+  if (!p.link) return <div className="svc-slide">{conteudo}</div>;
+  return (
+    <a className="svc-slide" href={p.link} target="_blank" rel="noreferrer">
+      {conteudo}
+    </a>
+  );
+}
+
+function Vitrine({ projetos, categoria }: { projetos: Projeto[]; categoria: string }) {
+  const [i, setI] = useState(0);
+  const varios = projetos.length > 1;
+  const p = projetos[i]!;
+  const ir = (d: number) => setI((n) => (n + d + projetos.length) % projetos.length);
+
+  return (
+    <div className="svc-mock svc-mock-link">
+      <span className="tag absolute" style={{ top: 16, left: 16, background: "var(--surface)", zIndex: 2 }}>
+        {categoria}
+      </span>
+
+      <Slide p={p} categoria={categoria} />
+
+      {varios && (
+        <>
+          <button type="button" className="svc-seta svc-seta-ant" onClick={() => ir(-1)} aria-label="Projeto anterior">
+            <ChevronLeft size={18} />
+          </button>
+          <button type="button" className="svc-seta svc-seta-prox" onClick={() => ir(1)} aria-label="Próximo projeto">
+            <ChevronRight size={18} />
+          </button>
+          <div className="svc-pontos">
+            {projetos.map((q, n) => (
+              <button key={q.imagem} type="button" className={`svc-ponto ${n === i ? "ativo" : ""}`}
+                      onClick={() => setI(n)} aria-label={`Ver ${q.label ?? `projeto ${n + 1}`}`} aria-current={n === i} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -410,6 +622,9 @@ export function VivieneLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
+  const progresso = useProgressoScroll();
+  const auraA = useParallax(0.12);
+  const auraB = useParallax(-0.08);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -422,6 +637,8 @@ export function VivieneLanding() {
   return (
     <div className="vd">
       {/* ================= NAVBAR FLUTUANTE ================= */}
+      <div className="scroll-bar" style={{ transform: `scaleX(${progresso})` }} aria-hidden="true" />
+
       <header className={`nav ${scrolled ? "scrolled" : ""}`}>
         <div className="wrap">
           <div className="nav-inner">
@@ -463,8 +680,8 @@ export function VivieneLanding() {
 
       {/* ================= HERO ================= */}
       <section id="top" className="relative pt-32 pb-20 md:pt-36 md:pb-28">
-        <div className="aura" style={{ width: 460, height: 460, background: "rgba(255,159,219,.5)", top: -160, right: -120 }} />
-        <div className="aura" style={{ width: 380, height: 380, background: "rgba(148,103,74,.16)", top: 220, left: -170 }} />
+        <div ref={auraA} className="aura aura-px" style={{ width: 460, height: 460, background: "rgba(255,159,219,.5)", top: -160, right: -120 }} />
+        <div ref={auraB} className="aura aura-px" style={{ width: 380, height: 380, background: "rgba(148,103,74,.16)", top: 220, left: -170 }} />
 
         <div className="wrap relative">
           <Reveal>
@@ -475,10 +692,10 @@ export function VivieneLanding() {
 
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-14 items-center mt-10">
             <div className="lg:col-span-7">
-              <Reveal delay={60}>
+              <Reveal delay={60} variante="left">
                 <p className="meta-local">Brumadinho · MG — atendo o Brasil inteiro</p>
               </Reveal>
-              <Reveal delay={80}>
+              <Reveal delay={80} variante="left">
                 <h1 className="h-xl mt-5">
                   Sites, sistemas e design que fazem o cliente{" "}
                   <span className="em">chegar até você.</span>
@@ -506,7 +723,7 @@ export function VivieneLanding() {
             </div>
 
             <div className="lg:col-span-5">
-              <Reveal delay={200}>
+              <Reveal delay={200} variante="right">
                 <div className="hero-foto">
                   {CONFIG.foto
                     ? <img src={CONFIG.foto} alt={`${CONFIG.nome}, designer e desenvolvedora front-end`}
@@ -548,7 +765,7 @@ export function VivieneLanding() {
         </div>
 
         <div className="wrap relative">
-          <Reveal delay={120}>
+          <Reveal delay={120} variante="fade">
             <p className="statement mt-4 md:mt-6">
               Transformo ideias complexas em interfaces bonitas, rápidas e prontas para rodar.
               Do protótipo no Figma até a publicação da sua aplicação.
@@ -579,7 +796,7 @@ export function VivieneLanding() {
 
           <div className="build-grid mt-14">
             {CONSTRUO.map((c, i) => (
-              <Reveal key={c.t} delay={(i % 2) * 90}>
+              <Reveal key={c.t} delay={(i % 2) * 90} variante="scale">
                 <div className="build-card">
                   <div className="icon-box"><c.icon size={20} /></div>
                   <h3 className="h-md mt-5">{c.t}</h3>
@@ -611,12 +828,16 @@ export function VivieneLanding() {
             {SERVICOS.map((s, i) => (
               <Reveal key={s.titulo} delay={40}>
                 <div className={`svc-row ${i % 2 === 1 ? "rev" : ""}`}>
-                  <div className="svc-mock">
-                    <span className="tag absolute" style={{ top: 16, left: 16, background: "var(--surface)" }}>
-                      {s.categoria}
-                    </span>
-                    {s.mock}
-                  </div>
+                  {"projetos" in s && s.projetos ? (
+                    <Vitrine projetos={s.projetos} categoria={s.categoria} />
+                  ) : (
+                    <div className="svc-mock">
+                      <span className="tag absolute" style={{ top: 16, left: 16, background: "var(--surface)" }}>
+                        {s.categoria}
+                      </span>
+                      {s.mock}
+                    </div>
+                  )}
                   <div>
                     <h3 className="h-md">{s.titulo}</h3>
                     <p className="body-soft mt-4">{s.texto}</p>
@@ -652,7 +873,7 @@ export function VivieneLanding() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-20">
             {PLANOS.map((p, i) => (
-              <Reveal key={p.nome} delay={i * 80}>
+              <Reveal key={p.nome} delay={i * 80} variante="scale">
                 <div className={`plan-card ${p.pop ? "pop" : ""}`}>
                   {p.pop && <span className="plan-flag">Recomendado</span>}
                   <h3 className="plan-nome">{p.nome}</h3>
@@ -691,7 +912,7 @@ export function VivieneLanding() {
         <div className="wrap">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             <div className="lg:col-span-5">
-              <Reveal>
+              <Reveal variante="left">
                 <div className="flex justify-center lg:justify-start">
                   <div className="foto-wrap">
                     {CONFIG.fotoSobre
@@ -728,7 +949,7 @@ export function VivieneLanding() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-14">
             {SOBRE_CARDS.map(([Icon, t, d], i) => (
-              <Reveal key={t} delay={i * 80}>
+              <Reveal key={t} delay={i * 80} variante="scale">
                 <div className="card card-hover p-6 h-full">
                   <Icon size={20} style={{ color: "var(--marrom)" }} />
                   <h3 className="h-sm mt-4">{t}</h3>
@@ -750,7 +971,7 @@ export function VivieneLanding() {
 
           <div className="benefit-grid mt-14">
             {BENEFICIOS.map((b, i) => (
-              <Reveal key={b.t} delay={(i % 3) * 90}>
+              <Reveal key={b.t} delay={(i % 3) * 90} variante="scale">
                 <div className="benefit-card" onPointerMove={seguirCursor}>
                   <div className="icon-box"><b.icon size={20} /></div>
                   <h3 className="h-sm mt-5">{b.t}</h3>
@@ -798,57 +1019,84 @@ export function VivieneLanding() {
         </div>
       </section>
 
-      {/* ================= PORTFÓLIO ================= */}
-      <section id="projetos" className="sec sec-cont" style={{ background: "var(--creme)" }}>
-        <div className="wrap">
-          <div className="sec-head">
-            <Reveal><span className="olho">Portfólio</span>
-              <h2 className="h-lg">Trabalhos recentes em destaque</h2></Reveal>
-          </div>
+      {/* ================= PORTFÓLIO (desativado) ================= */}
+      {MOSTRAR_PORTFOLIO && (
+        <section id="projetos" className="sec sec-cont" style={{ background: "var(--creme)" }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <Reveal><span className="olho">Portfólio</span>
+                <h2 className="h-lg">Trabalhos recentes em destaque</h2></Reveal>
+            </div>
 
-          <div className="grid md:grid-cols-2 gap-5 mt-14">
-            {PROJETOS.map((p, i) => (
-              <Reveal key={p.t} delay={(i % 2) * 90}>
-                <a href={waLink} target="_blank" rel="noreferrer"
-                   className="card card-hover block p-0 overflow-hidden h-full" style={{ textDecoration: "none", color: "inherit" }}>
-                  {/* mockup — troque por <img src="..." /> do projeto real */}
-                  <div className="relative" style={{
-                    aspectRatio: "16/9",
-                    background: "linear-gradient(135deg,#FFFFFF 0%,#F5EBE3 100%)",
-                    borderBottom: "1px solid var(--line)",
-                  }}>
-                    <div className="absolute" style={{ inset: 0, display: "grid", placeItems: "center" }}>
-                      <div style={{
-                        width: "62%", height: "58%", borderRadius: "var(--r-md)", background: "var(--surface)",
-                        boxShadow: "var(--shadow-sm)", padding: 14,
-                      }}>
-                        <div style={{ display: "flex", gap: 5, marginBottom: 12 }}>
-                          {["#94674A", "#FF9FDB", "#E8DED6"].map((c) => (
-                            <span key={c} style={{ width: 7, height: 7, borderRadius: 99, background: c }} />
-                          ))}
+            <div className="grid md:grid-cols-2 gap-5 mt-14">
+              {PROJETOS.map((p, i) => (
+                <Reveal key={p.t} delay={(i % 2) * 90} variante="scale">
+                  <a href={waLink} target="_blank" rel="noreferrer"
+                     className="card card-hover block p-0 overflow-hidden h-full" style={{ textDecoration: "none", color: "inherit" }}>
+                    {/* mockup — troque por <img src="..." /> do projeto real */}
+                    <div className="relative" style={{
+                      aspectRatio: "16/9",
+                      background: "linear-gradient(135deg,#FFFFFF 0%,#F5EBE3 100%)",
+                      borderBottom: "1px solid var(--line)",
+                    }}>
+                      <div className="absolute" style={{ inset: 0, display: "grid", placeItems: "center" }}>
+                        <div style={{
+                          width: "62%", height: "58%", borderRadius: "var(--r-md)", background: "var(--surface)",
+                          boxShadow: "var(--shadow-sm)", padding: 14,
+                        }}>
+                          <div style={{ display: "flex", gap: 5, marginBottom: 12 }}>
+                            {["#94674A", "#FF9FDB", "#E8DED6"].map((c) => (
+                              <span key={c} style={{ width: 7, height: 7, borderRadius: 99, background: c }} />
+                            ))}
+                          </div>
+                          <div style={{ height: 8, width: "70%", borderRadius: 99, background: "var(--rosa-forte)", marginBottom: 8 }} />
+                          <div style={{ height: 7, width: "90%", borderRadius: 99, background: "#F1E9E3", marginBottom: 6 }} />
+                          <div style={{ height: 7, width: "55%", borderRadius: 99, background: "#F1E9E3" }} />
                         </div>
-                        <div style={{ height: 8, width: "70%", borderRadius: 99, background: "var(--rosa-forte)", marginBottom: 8 }} />
-                        <div style={{ height: 7, width: "90%", borderRadius: 99, background: "#F1E9E3", marginBottom: 6 }} />
-                        <div style={{ height: 7, width: "55%", borderRadius: 99, background: "#F1E9E3" }} />
                       </div>
+                      <span className="tag absolute" style={{ top: 16, left: 16, background: "var(--surface)" }}>{p.tag}</span>
                     </div>
-                    <span className="tag absolute" style={{ top: 16, left: 16, background: "var(--surface)" }}>{p.tag}</span>
-                  </div>
 
-                  <div className="p-7">
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="h-md">{p.t}</h3>
-                      <ArrowUpRight size={18} style={{ color: "var(--rosa-forte)", flex: "none", marginTop: 6 }} />
+                    <div className="p-7">
+                      <div className="flex items-start justify-between gap-4">
+                        <h3 className="h-md">{p.t}</h3>
+                        <ArrowUpRight size={18} style={{ color: "var(--rosa-forte)", flex: "none", marginTop: 6 }} />
+                      </div>
+                      <p className="body-soft mt-3" style={{ fontSize: "var(--fs-sm)" }}>{p.d}</p>
+                      <p className="hint mt-6">{p.stack}</p>
                     </div>
-                    <p className="body-soft mt-3" style={{ fontSize: "var(--fs-sm)" }}>{p.d}</p>
-                    <p className="hint mt-6">{p.stack}</p>
-                  </div>
-                </a>
-              </Reveal>
-            ))}
+                  </a>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* ================= INSTAGRAM ================= */}
+      {CONFIG.instagramPosts.length > 0 && (
+        <section id="instagram" className="sec sec-cont" style={{ background: "var(--creme)" }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <Reveal><span className="olho">Instagram</span>
+                <h2 className="h-lg">O que saiu do estúdio nos últimos dias</h2></Reveal>
+              <Reveal delay={60}>
+                <p>Bastidores, entregas e processo — publicado primeiro por lá.</p>
+              </Reveal>
+            </div>
+
+            <FeedInstagram posts={CONFIG.instagramPosts} />
+
+            <Reveal delay={120}>
+              <div className="text-center mt-14">
+                <a href={CONFIG.instagram} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                  <Marca titulo="Instagram" d={D_INSTAGRAM} size={16} /> Seguir @agencia_diiniz
+                </a>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* ================= FAQ ================= */}
       <section id="faq" className="sec">
