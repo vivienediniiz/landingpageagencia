@@ -1021,6 +1021,12 @@ html {
   gap: 28px;
   align-items: center;
 }
+.svc-row.rev .svc-mock {
+  order: 1;
+}
+.svc-row.rev > div:last-child {
+  order: 2;
+}
 @media (min-width: 900px) {
   .svc-row {
     grid-template-columns: 1fr 1fr;
@@ -1029,6 +1035,9 @@ html {
   }
   .svc-row.rev .svc-mock {
     order: 2;
+  }
+  .svc-row.rev > div:last-child {
+    order: 1;
   }
 }
 .svc-mock {
