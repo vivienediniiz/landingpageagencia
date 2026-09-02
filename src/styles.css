@@ -1,0 +1,1325 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
+
+
+/* ============================================================================
+   🌷 VIVIENE DINIZ — Landing page
+   ----------------------------------------------------------------------------
+   Os tokens abaixo são escopados em `.vd` de propósito: `--muted` e afins
+   colidem com os tokens do shadcn definidos em :root e quebrariam
+   `bg-muted` / `text-muted-foreground` nos componentes de UI.
+   ============================================================================ */
+.vd {
+  /* ---- superfícies e tinta ---- */
+  --bg: #faf7f3;
+  --surface: #ffffff;
+  --creme: #f5ebe3;
+
+  --titulo: #7a5138;   /* títulos e marrom-texto — AA sobre bg e sobre creme */
+  --ink: #6f5949;      /* corpo de texto */
+  --ink-soft: #7a6355; /* texto secundário — 4,8:1 sobre creme */
+  --ink-rosa: #4a2d1c; /* tinta usada SOBRE superfícies rosa — 6,6:1 */
+
+  --marrom: #94674a;   /* marrom da logo: preenchimentos e gradientes */
+  --marrom-esc: #6b4530;
+  --rosa: #ff9fdb;     /* rosa da logo: superfície e marcação, nunca fundo de texto branco */
+  --rosa-forte: #e56bb4;
+  --rosa-suave: #ffd9ef;
+
+  --line: rgba(148, 103, 74, 0.16);
+  --line-forte: rgba(148, 103, 74, 0.3);
+
+  --grad-marrom: linear-gradient(135deg, #94674a 0%, #6b4530 100%);
+
+  /* ---- elevação: cada superfície declara borda OU sombra, nunca as duas ---- */
+  --shadow-sm: 0 1px 2px rgba(107, 69, 48, 0.06), 0 8px 20px -14px rgba(107, 69, 48, 0.34);
+  --shadow-md: 0 2px 6px rgba(107, 69, 48, 0.06), 0 22px 44px -24px rgba(107, 69, 48, 0.42);
+
+  /* ---- raio: três degraus, não nove ---- */
+  --r-sm: 10px;   /* controles pequenos, tags, caixas de ícone */
+  --r-md: 14px;   /* cards */
+  --r-lg: 20px;   /* painéis grandes */
+  --r-pill: 999px;
+
+  /* ---- famílias ----
+     Radley só existe em 400 (normal + itálico): não há corte bold. Peso 600/700
+     nela vira falso-negrito borrado, então a hierarquia vem de tamanho, itálico
+     e cor. Títulos funcionais pequenos ficam na Nunito 700. */
+  --font-display: "Radley", Georgia, "Times New Roman", serif;
+  --font-sans: "Nunito Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-num: "Poppins", system-ui, sans-serif;
+
+  /* ---- escala tipográfica: 8 papéis, piso de corpo em 16px ---- */
+  --fs-display: clamp(2.4rem, 5vw, 3.75rem);
+  --fs-h2: clamp(2rem, 3.6vw, 2.7rem);
+  --fs-h3: clamp(1.35rem, 1.9vw, 1.55rem);
+  --fs-h4: 1.0625rem;
+  --fs-lead: 1.125rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.9375rem;
+  --fs-label: 0.8125rem;
+
+  /* ---- ritmo vertical das seções ---- */
+  --sec-y: 112px;
+  --sec-y-tight: 72px;
+}
+
+@media (max-width: 768px) {
+  .vd {
+    --sec-y: 76px;
+    --sec-y-tight: 52px;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* navbar fixa: as âncoras precisam parar abaixo dela */
+  scroll-padding-top: 96px;
+}
+
+.vd {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.vd h1,
+.vd h2,
+.vd h3,
+.vd h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--titulo);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.vd section[id] {
+  scroll-margin-top: 88px;
+}
+
+/* ---- superfícies do navegador: o que não desenhamos também é do design ---- */
+.vd ::selection {
+  background: var(--rosa-suave);
+  color: var(--ink-rosa);
+}
+.vd {
+  scrollbar-color: rgba(148, 103, 74, 0.35) transparent;
+  scrollbar-width: thin;
+}
+.vd ::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.vd ::-webkit-scrollbar-thumb {
+  background: rgba(148, 103, 74, 0.3);
+  border-radius: var(--r-pill);
+  border: 3px solid var(--bg);
+}
+.vd ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 103, 74, 0.5);
+}
+.vd ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.vd code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--titulo);
+}
+.vd a {
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+/* ============================================================================
+   Utilitários de layout
+   ========================================================================= */
+.wrap {
+  width: min(1140px, 90vw);
+  margin-inline: auto;
+}
+
+.sec {
+  padding-block: var(--sec-y);
+}
+/* seção que continua o assunto da anterior: aproxima em cima, mantém embaixo */
+.sec-cont {
+  padding-top: var(--sec-y-tight);
+}
+
+/* Cabeçalho de seção — mais ar acima do título do que abaixo dele. O ar de cima
+   vem do padding da .sec; aqui fica só o agrupamento interno. */
+.sec-head {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.olho {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--titulo);
+}
+/* traço rosa antes do rótulo: marca a seção sem competir com o h2 */
+.olho::before {
+  content: "";
+  width: 34px;
+  height: 2px;
+  background: var(--rosa-forte);
+  flex: none;
+}
+
+.sec-head p {
+  margin: 20px auto 0;
+  color: var(--ink-soft);
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+/* ============================================================================
+   Papéis tipográficos
+   ========================================================================= */
+.h-xl {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.h-lg {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.012em;
+}
+.h-md {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.008em;
+}
+/* título funcional pequeno: sans 700 — a serifa em 400 não se separa do corpo */
+.h-sm {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--titulo);
+  margin: 0;
+}
+/* ênfase em itálico: o recurso que a Radley tem no lugar do bold */
+.em {
+  font-style: italic;
+  color: var(--marrom);
+}
+.lead {
+  color: var(--ink-soft);
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  max-width: 62ch;
+}
+.body {
+  color: var(--ink);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  max-width: 68ch;
+}
+.body-soft {
+  color: var(--ink-soft);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  max-width: 68ch;
+}
+/* metadados e rótulos — Nunito com tracking, não monoespaçada de fantasia */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.hint {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+/* monoespaçada fica reservada à anotação de wireframe — ali ela é especificação */
+.spec {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+
+/* ============================================================================
+   Botões — sólido de ação, contorno secundário, rosa de apoio
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fs-body);
+  line-height: 1.2;
+  padding: 15px 26px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.25s, background 0.25s, color 0.25s,
+    border-color 0.25s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--grad-marrom);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgba(107, 69, 48, 0.7);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px -14px rgba(107, 69, 48, 0.8);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--titulo);
+  border-color: var(--line-forte);
+}
+.btn-ghost:hover {
+  border-color: var(--titulo);
+  background: rgba(148, 103, 74, 0.05);
+  transform: translateY(-2px);
+}
+/* rosa é superfície, nunca fundo de texto branco — a tinta escura garante 6,6:1 */
+.btn-accent {
+  background: var(--rosa);
+  color: var(--ink-rosa);
+  box-shadow: 0 10px 24px -14px rgba(229, 107, 180, 0.9);
+}
+.btn-accent:hover {
+  background: var(--rosa-forte);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.btn-sm {
+  padding: 11px 20px;
+  font-size: var(--fs-sm);
+}
+.btn-block {
+  width: 100%;
+}
+.btn:focus-visible,
+.vd a:focus-visible,
+.vd button:focus-visible {
+  outline: 2px solid var(--titulo);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* ============================================================================
+   Superfícies — em repouso só borda; na elevação só sombra
+   ========================================================================= */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s, border-color 0.35s;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink);
+  border: 1px solid var(--line-forte);
+  background: rgba(255, 255, 255, 0.72);
+}
+.badge-sm {
+  padding: 6px 13px;
+  font-size: var(--fs-label);
+  gap: 7px;
+}
+.dot {
+  position: relative;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  /* núcleo em verde fechado o bastante para manter 3,5:1 sobre o selo claro;
+     o brilho neon fica nas camadas de sombra, não no preenchimento */
+  background: #1f9d55;
+  animation: neon-pulso 2.2s ease-in-out infinite;
+}
+/* anel que se expande e some, dando o "respiro" do letreiro */
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  border: 1px solid rgba(45, 220, 125, 0.7);
+  animation: neon-anel 2.2s ease-out infinite;
+}
+@keyframes neon-pulso {
+  0%,
+  100% {
+    box-shadow:
+      0 0 3px rgba(45, 220, 125, 0.85),
+      0 0 7px rgba(45, 220, 125, 0.6),
+      0 0 13px rgba(45, 220, 125, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 5px rgba(45, 220, 125, 1),
+      0 0 13px rgba(45, 220, 125, 0.9),
+      0 0 24px rgba(45, 220, 125, 0.55),
+      0 0 36px rgba(45, 220, 125, 0.28);
+  }
+}
+@keyframes neon-anel {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.85;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+.tag {
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 11px;
+  border-radius: var(--r-sm);
+  background: var(--creme);
+  color: var(--titulo);
+  border: 1px solid var(--line);
+}
+.icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  background: var(--creme);
+  color: var(--titulo);
+  transition: background 0.35s, color 0.35s, transform 0.35s;
+}
+.card-hover:hover .icon-box {
+  background: var(--rosa);
+  color: var(--ink-rosa);
+}
+
+/* ============================================================================
+   Navbar
+   ========================================================================= */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  padding: 14px 0;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px 10px 28px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  /* sem transição de padding: anima só o que não recalcula layout */
+  transition: background 0.35s, box-shadow 0.35s, border-color 0.35s;
+}
+.nav.scrolled .nav-inner {
+  background: rgba(250, 247, 243, 0.86);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--line);
+  box-shadow: var(--shadow-sm);
+}
+.nav-link {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+  padding: 10px 2px;
+  transition: color 0.25s;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 2px;
+  background: var(--rosa-forte);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.nav-link:hover {
+  color: var(--titulo);
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.brand img {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+/* ============================================================================
+   Atmosfera do hero
+   ========================================================================= */
+.aura {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ============================================================================
+   Hero
+   ========================================================================= */
+.meta-local {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* frase-manifesto em monoespaçada: entrelinha aberta porque caixa alta com
+   tracking precisa de ar para não virar um bloco cinza */
+.statement {
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.05vw, 0.9rem);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 2.15;
+  color: var(--ink-soft);
+  text-align: center;
+  max-width: 58em;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+.hero-foto {
+  position: relative;
+  /* proporção nativa de viviene.png: o recorte não pode ser cortado */
+  aspect-ratio: 520 / 613;
+}
+.hero-foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+/* contador sobre a foto: sem cartão branco, apoiado no desvanecer da imagem */
+.hero-stats {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 18px 18px;
+}
+.hero-stat-num {
+  font-family: var(--font-num);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--titulo);
+  font-variant-numeric: tabular-nums;
+}
+.hero-stat-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin-top: 5px;
+}
+
+.hero-foto-vazia {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed var(--line-forte);
+  border-radius: var(--r-lg);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 28px;
+  color: var(--titulo);
+}
+
+/* ============================================================================
+   Mock do painel — layout largo, altura flexível
+   ========================================================================= */
+.mk {
+  height: 100%;
+  display: flex;
+}
+.mk-rail {
+  flex: none;
+  width: 58px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+  border-right: 1px solid var(--line);
+}
+@media (min-width: 640px) {
+  .mk-rail {
+    display: flex;
+  }
+}
+.mk-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+}
+@media (min-width: 640px) {
+  .mk-main {
+    gap: 22px;
+    padding: 26px 28px;
+  }
+}
+.mk-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.mk-chart {
+  flex: 1;
+  min-height: 80px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+@media (min-width: 640px) {
+  .mk-chart {
+    gap: 10px;
+  }
+}
+.mk-rows {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (min-width: 900px) {
+  .mk-rows {
+    display: flex;
+  }
+}
+
+/* ============================================================================
+   Foto (seção Sobre)
+   ========================================================================= */
+.foto-wrap {
+  position: relative;
+  width: min(380px, 100%);
+  aspect-ratio: 1;
+}
+.foto-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.foto-vazia {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  border: 1px dashed var(--line-forte);
+  border-radius: var(--r-md);
+  color: var(--titulo);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+}
+
+/* ============================================================================
+   Assinatura: comparador design ⇄ código
+   ========================================================================= */
+.split {
+  position: relative;
+  height: clamp(400px, 46vw, 580px);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  /* pan-y (e não none): arrastar na horizontal move a alça, na vertical rola a página */
+  touch-action: pan-y;
+  user-select: none;
+  cursor: ew-resize;
+}
+.split-layer {
+  position: absolute;
+  inset: 0;
+}
+.split-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--rosa-forte);
+  z-index: 5;
+  cursor: ew-resize;
+}
+.split-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 8px 22px -8px rgba(107, 69, 48, 0.5);
+  display: grid;
+  place-items: center;
+  color: var(--rosa-forte);
+}
+.split-tag {
+  position: absolute;
+  top: 14px;
+  z-index: 6;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 11px;
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}
+.blueprint {
+  background: #f2ede8;
+  background-image: linear-gradient(rgba(148, 103, 74, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 103, 74, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.wf {
+  border: 1.5px dashed rgba(148, 103, 74, 0.45);
+  background: transparent;
+  color: #6f5d4d;
+}
+
+/* ============================================================================
+   Faixa de habilidades — vidro líquido, rolagem contínua
+   ========================================================================= */
+.marquee-wrap {
+  position: relative;
+  overflow: hidden;
+  padding-block: 60px;
+}
+.marquee {
+  position: relative;
+  isolation: isolate;
+  /* mais larga que a tela: girada, uma faixa de 100% deixaria canto vazio */
+  width: 108%;
+  margin-left: -4%;
+  padding: 16px 0;
+  opacity: 0.5;
+  transform: rotate(-2.5deg);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.marquee-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--titulo);
+  white-space: nowrap;
+}
+.marquee-item::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: var(--r-pill);
+  background: var(--rosa-forte);
+  margin: 0 22px;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================================================
+   O que eu construo
+   ========================================================================= */
+.build-grid {
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 860px) {
+  .build-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.build-card {
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 28px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s, border-color 0.35s;
+}
+.build-card:hover {
+  transform: translateY(-4px);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+.build-card:hover .icon-box {
+  background: var(--rosa);
+  color: var(--ink-rosa);
+}
+.build-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* ============================================================================
+   Serviços
+   ========================================================================= */
+.svc-row {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  display: grid;
+  gap: 28px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .svc-row {
+    grid-template-columns: 1fr 1fr;
+    padding: 40px;
+    gap: 48px;
+  }
+  .svc-row.rev .svc-mock {
+    order: 2;
+  }
+}
+.svc-mock {
+  position: relative;
+  border: 1px dashed var(--line-forte);
+  border-radius: var(--r-md);
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  color: var(--ink-soft);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  background: linear-gradient(180deg, rgba(245, 235, 227, 0.6), rgba(255, 255, 255, 0.4));
+}
+.svc-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 12px;
+}
+.svc-list li {
+  position: relative;
+  padding-left: 20px;
+  color: var(--ink);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+.svc-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--rosa-forte);
+}
+
+/* ============================================================================
+   Planos
+   ========================================================================= */
+.plan-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.plan-card.pop {
+  border-color: var(--marrom);
+  box-shadow: var(--shadow-md);
+}
+.plan-flag {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--marrom-esc);
+  color: #fff;
+  border-radius: var(--r-pill);
+  padding: 5px 16px;
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.plan-nome {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--titulo);
+  margin: 0;
+}
+.plan-price {
+  color: var(--titulo);
+  font-family: var(--font-num);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  margin: 4px 0 0;
+}
+.plan-feats {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 12px;
+  flex: 1;
+}
+.plan-feats li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--ink);
+}
+.plan-check {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: var(--r-pill);
+  background: var(--rosa);
+  color: var(--ink-rosa);
+  display: grid;
+  place-items: center;
+}
+
+/* ============================================================================
+   Benefícios — cards com foco que segue o ponteiro
+   ========================================================================= */
+.benefit-grid {
+  display: grid;
+  gap: 18px;
+}
+@media (min-width: 768px) {
+  .benefit-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .benefit-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.benefit-card {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  padding: 30px 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s, border-color 0.45s;
+}
+/* halo que acompanha o cursor — posição vem de --mx/--my via JS */
+.benefit-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 159, 219, 0.26), transparent 68%);
+}
+/* fio de luz na borda superior, revelado no hover */
+.benefit-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s;
+  background: linear-gradient(90deg, transparent, var(--rosa-forte), transparent);
+}
+.benefit-card:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+.benefit-card:hover::before,
+.benefit-card:hover::after {
+  opacity: 1;
+}
+.benefit-card > * {
+  position: relative;
+}
+.benefit-card:hover .icon-box {
+  background: var(--rosa);
+  color: var(--ink-rosa);
+  transform: translateY(-2px) rotate(-6deg);
+}
+
+/* ============================================================================
+   Processo
+   ========================================================================= */
+.step-line {
+  position: absolute;
+  left: 21px;
+  top: 56px;
+  bottom: -40px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--line-forte), rgba(148, 103, 74, 0));
+}
+.step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-num);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  background: var(--surface);
+  border: 1px solid var(--line-forte);
+  color: var(--titulo);
+  flex: none;
+}
+
+/* ============================================================================
+   FAQ
+   ========================================================================= */
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+.faq-q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 4px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--titulo);
+  transition: color 0.25s;
+}
+.faq-q:hover {
+  color: var(--marrom-esc);
+}
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.faq-body.open {
+  grid-template-rows: 1fr;
+}
+.faq-body > div {
+  overflow: hidden;
+}
+.faq-icon {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  color: var(--rosa-forte);
+}
+.faq-icon.open {
+  transform: rotate(45deg);
+}
+
+/* ============================================================================
+   Revelação no scroll
+   ========================================================================= */
+.rv {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rv.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rv {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .benefit-card:hover {
+    transform: none;
+  }
+  .vd *,
+  .vd *::before,
+  .vd *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
