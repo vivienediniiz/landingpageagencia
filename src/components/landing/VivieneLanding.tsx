@@ -1157,8 +1157,7 @@ export function VivieneLanding() {
                   <a href={waLink} target="_blank" rel="noreferrer" className="btn btn-primary">
                     <MessageCircle size={17} /> Falar no WhatsApp
                   </a>
-                  <a href={`mailto:${CONFIG.email}`} className="btn btn-ghost"
-                     style={{ background: "rgba(255,255,255,.7)" }}>
+                  <a href={`mailto:${CONFIG.email}`} className="btn btn-ghost">
                     <Mail size={16} /> Enviar e-mail
                   </a>
                 </div>

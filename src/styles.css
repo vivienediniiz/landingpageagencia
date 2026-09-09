@@ -446,12 +446,8 @@ html {
   box-shadow: 0 18px 34px -14px rgba(107, 69, 48, 0.8);
 }
 .btn-ghost {
-  background: transparent padding-box;
+  background: transparent;
   color: var(--titulo);
-  border: 2px solid transparent;
-  border-image: var(--grad-titulo) 1;
-}
-.btn-sm.btn-ghost {
   border: none;
 }
 .btn-ghost:hover {
