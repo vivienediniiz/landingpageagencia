@@ -423,13 +423,13 @@ html {
   align-items: center;
   justify-content: center;
   gap: 9px;
-  border-radius: var(--r-pill);
+  border-radius: 50px;
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: var(--fs-body);
   line-height: 1.2;
   padding: 15px 26px;
-  border: 1px solid transparent;
+  border: none;
   cursor: pointer;
   transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.25s, background 0.25s, color 0.25s,
     border-color 0.25s;
@@ -450,6 +450,9 @@ html {
   color: var(--titulo);
   border: 2px solid transparent;
   border-image: var(--grad-titulo) 1;
+}
+.btn-sm.btn-ghost {
+  border: none;
 }
 .btn-ghost:hover {
   transform: translateY(-2px);
