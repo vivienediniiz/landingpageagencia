@@ -729,6 +729,7 @@ html {
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding: 16px 18px 18px;
+  z-index: 2;
 }
 .hero-stat-num {
   font-family: var(--font-num);
