@@ -932,7 +932,7 @@ export function VivieneLanding() {
             <div className="lg:col-span-7">
             <Reveal>
               <span className="olho">Quem sou eu</span>
-              <h2 className="h-lg">Duas competências raras na mesma profissional.</h2>
+              <h2 className="h-lg">Duas competências na mesma profissional.</h2>
             </Reveal>
             <Reveal delay={100}>
               <p className="lead mt-7">
