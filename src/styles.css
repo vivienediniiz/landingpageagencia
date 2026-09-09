@@ -446,12 +446,14 @@ html {
   box-shadow: 0 18px 34px -14px rgba(107, 69, 48, 0.8);
 }
 .btn-ghost {
-  background: transparent;
+  background: linear-gradient(transparent, transparent) padding-box,
+              var(--grad-titulo) border-box;
   color: var(--titulo);
-  border: none;
+  border: 2px solid transparent;
 }
 .btn-ghost:hover {
-  background: rgba(240, 99, 195, 0.05);
+  background: linear-gradient(rgba(240, 99, 195, 0.05), rgba(240, 99, 195, 0.05)) padding-box,
+              var(--grad-titulo) border-box;
   transform: translateY(-2px);
 }
 /* rosa é superfície, nunca fundo de texto branco — a tinta escura garante 6,6:1 */
