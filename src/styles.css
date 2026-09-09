@@ -189,7 +189,7 @@
   /* ---- famílias ----
      Quache para títulos, Anek Latin para sans,
      Roboto Mono para monoespacada, Poppins para números, DM Mono como fallback. */
-  --font-display: "Quache", Georgia, "Times New Roman", serif;
+  --font-display: "Anek Latin", system-ui, sans-serif;
   --font-sans: "Anek Latin", system-ui, sans-serif;
   --font-mono: "Roboto Mono", "DM Mono", ui-monospace, SFMono-Regular, monospace;
   --font-num: "Poppins", system-ui, sans-serif;
