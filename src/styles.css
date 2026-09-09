@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Quache&family=Roboto+Mono:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap");
+
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -153,14 +155,15 @@
    ============================================================================ */
 .vd {
   /* ---- superfícies e tinta ---- */
-  --bg: #faf7f3;
+  --bg: #F4F0E3;
   --surface: #ffffff;
   --creme: #f5ebe3;
 
-  --titulo: #7a5138;   /* títulos e marrom-texto — AA sobre bg e sobre creme */
+  --titulo: #231710;   /* títulos — AA sobre bg e sobre creme */
   --ink: #6f5949;      /* corpo de texto */
-  --ink-soft: #7a6355; /* texto secundário — 4,8:1 sobre creme */
+  --ink-soft: #231710; /* texto secundário — 4,8:1 sobre creme */
   --ink-rosa: #4a2d1c; /* tinta usada SOBRE superfícies rosa — 6,6:1 */
+  --grad-titulo: linear-gradient(146deg, #FFBD97 5.08%, #F063C3 52.59%, #AA17DB 94.92%);
 
   --marrom: #94674a;   /* marrom da logo: preenchimentos e gradientes */
   --marrom-esc: #6b4530;
@@ -184,12 +187,11 @@
   --r-pill: 999px;
 
   /* ---- famílias ----
-     Radley só existe em 400 (normal + itálico): não há corte bold. Peso 600/700
-     nela vira falso-negrito borrado, então a hierarquia vem de tamanho, itálico
-     e cor. Títulos funcionais pequenos ficam na Nunito 700. */
-  --font-display: "Radley", Georgia, "Times New Roman", serif;
+     Quache para títulos, Roboto Mono para monoespacada,
+     Poppins para números, DM Mono como fallback. */
+  --font-display: "Quache", Georgia, "Times New Roman", serif;
   --font-sans: "Nunito Sans", system-ui, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-mono: "Roboto Mono", "DM Mono", ui-monospace, SFMono-Regular, monospace;
   --font-num: "Poppins", system-ui, sans-serif;
 
   /* ---- escala tipográfica: 8 papéis, piso de corpo em 16px ---- */
@@ -237,7 +239,10 @@ html {
 .vd h4 {
   font-family: var(--font-display);
   font-weight: 400;
-  color: var(--titulo);
+  background: var(--grad-titulo);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-wrap: balance;
   margin: 0;
 }
