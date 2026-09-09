@@ -708,7 +708,7 @@ html {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center bottom, transparent 40%, var(--bg) 100%);
+  background: linear-gradient(180deg, transparent 0%, transparent 40%, var(--bg) 100%);
   z-index: 1;
 }
 .hero-foto img {
@@ -718,8 +718,6 @@ html {
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 70%, rgba(0,0,0,0.7) 95%);
-  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 70%, rgba(0,0,0,0.7) 95%);
 }
 /* contador sobre a foto: sem cartão branco, apoiado no desvanecer da imagem */
 .hero-stats {
