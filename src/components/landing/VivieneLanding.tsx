@@ -726,8 +726,11 @@ export function VivieneLanding() {
               <Reveal delay={200} variante="right">
                 <div className="hero-foto">
                   {CONFIG.foto
-                    ? <img src={CONFIG.foto} alt={`${CONFIG.nome}, designer e desenvolvedora front-end`}
-                           width={520} height={613} fetchPriority="high" />
+                    ? <picture>
+                        <source srcSet="/viviene.webp" type="image/webp" />
+                        <img src={CONFIG.foto} alt={`${CONFIG.nome}, designer e desenvolvedora front-end`}
+                             width={520} height={613} fetchPriority="high" />
+                      </picture>
                     : <div className="hero-foto-vazia">
                         <UserRound size={26} />
                         <p className="h-sm">sua foto aqui</p>
