@@ -184,11 +184,11 @@ const CONSTRUO = [
 
 
 const PLANOS = [
-  { nome: "Essencial", desc: "Pra quem está começando e precisa aparecer com constância.", preco: "R$ 150,00", pop: false,
+  { nome: "Essencial", desc: "Pra quem está começando e precisa aparecer com constância.", preco: "R$ 250,00", pop: false,
     itens: ["8 artes por mês (4 feed + 4 stories)", "Legenda pronta em cada post", "1 rodada de ajuste por arte", "Entrega quinzenal"] },
-  { nome: "Constância", desc: "Pra quem já publica e quer ritmo sem quebrar a linha visual.", preco: "R$ 280,00", pop: false,
+  { nome: "Constância", desc: "Pra quem já publica e quer ritmo sem quebrar a linha visual.", preco: "R$ 450,00", pop: false,
     itens: ["16 artes por mês (8 feed + 8 stories)", "Legenda pronta em cada post", "2 rodadas de ajuste por arte", "Entrega semanal"] },
-  { nome: "Autoridade", desc: "Pra marcas que precisam de presença forte todos os dias.", preco: "R$ 450,00", pop: true,
+  { nome: "Autoridade", desc: "Pra marcas que precisam de presença forte todos os dias.", preco: "R$ 850,00", pop: true,
     itens: ["24 artes por mês (12 feed + 12 stories)", "Legendas com chamada para ação", "Ajustes ilimitados dentro do mês", "Calendário editorial mensal"] },
   { nome: "Sob medida", desc: "Pra quem precisa de artes, site e sistema no mesmo pacote.", preco: "Sob consulta", pop: false,
     itens: ["Volume definido com você", "Design + web na mesma equipe", "Prioridade na fila de entrega", "Reunião mensal de estratégia"] },
