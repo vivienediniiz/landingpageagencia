@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Quache&family=Roboto+Mono:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quache&family=Anek+Latin:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap");
 
 @import "tailwindcss" source(none);
 @source "../src";
@@ -187,10 +187,10 @@
   --r-pill: 999px;
 
   /* ---- famílias ----
-     Quache para títulos, Roboto Mono para monoespacada,
-     Poppins para números, DM Mono como fallback. */
+     Quache para títulos, Anek Latin para sans,
+     Roboto Mono para monoespacada, Poppins para números, DM Mono como fallback. */
   --font-display: "Quache", Georgia, "Times New Roman", serif;
-  --font-sans: "Nunito Sans", system-ui, sans-serif;
+  --font-sans: "Anek Latin", system-ui, sans-serif;
   --font-mono: "Roboto Mono", "DM Mono", ui-monospace, SFMono-Regular, monospace;
   --font-num: "Poppins", system-ui, sans-serif;
 
@@ -446,13 +446,14 @@ html {
   box-shadow: 0 18px 34px -14px rgba(107, 69, 48, 0.8);
 }
 .btn-ghost {
-  background: transparent;
+  background: linear-gradient(transparent, transparent) padding-box,
+              var(--grad-titulo) border-box;
   color: var(--titulo);
-  border: 2px solid;
-  border-image: var(--grad-titulo) 1;
+  border: 2px solid transparent;
 }
 .btn-ghost:hover {
-  background: rgba(240, 99, 195, 0.05);
+  background: linear-gradient(rgba(240, 99, 195, 0.05), rgba(240, 99, 195, 0.05)) padding-box,
+              var(--grad-titulo) border-box;
   transform: translateY(-2px);
 }
 /* rosa é superfície, nunca fundo de texto branco — a tinta escura garante 6,6:1 */
