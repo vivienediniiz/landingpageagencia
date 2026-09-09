@@ -437,9 +437,9 @@ html {
   white-space: nowrap;
 }
 .btn-primary {
-  background: var(--grad-marrom);
+  background: var(--grad-titulo);
   color: #fff;
-  box-shadow: 0 10px 24px -12px rgba(107, 69, 48, 0.7);
+  box-shadow: 0 10px 24px -12px rgba(240, 99, 195, 0.5);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
@@ -448,11 +448,11 @@ html {
 .btn-ghost {
   background: transparent;
   color: var(--titulo);
-  border-color: var(--line-forte);
+  border: 2px solid;
+  border-image: var(--grad-titulo) 1;
 }
 .btn-ghost:hover {
-  border-color: var(--titulo);
-  background: rgba(148, 103, 74, 0.05);
+  background: rgba(240, 99, 195, 0.05);
   transform: translateY(-2px);
 }
 /* rosa é superfície, nunca fundo de texto branco — a tinta escura garante 6,6:1 */
