@@ -4,6 +4,8 @@ import { VivieneLanding } from "@/components/landing/VivieneLanding";
 const TITLE = "Agência de Arte em Brumadinho | Viviene Diniz Design";
 const DESCRIPTION =
   "Agência de arte e design em Brumadinho (MG) com atendimento online para o mundo todo: social media, identidade visual, landing pages, sites, e-commerce e sistemas web.";
+const SITE_URL = "https://vivienediniz.site";
+const OG_IMAGE = `${SITE_URL}/logo-viviene.png`;
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -23,14 +25,16 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: SITE_URL + "/" },
       { property: "og:locale", content: "pt_BR" },
       { property: "og:site_name", content: "Viviene Diniz — Agência de Arte" },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: SITE_URL + "/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -39,7 +43,8 @@ export const Route = createFileRoute("/")({
           "@type": "ProfessionalService",
           name: "Viviene Diniz — Agência de Arte e Design",
           description: DESCRIPTION,
-          image: "/logo-viviene.png",
+          image: OG_IMAGE,
+          url: SITE_URL + "/",
           priceRange: "$$",
           address: {
             "@type": "PostalAddress",

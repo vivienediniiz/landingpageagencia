@@ -863,7 +863,7 @@ export function VivieneLanding() {
         <div className="wrap">
           <div className="sec-head">
             <Reveal>
-              <span className="olho">Planos</span>
+              <span className="olho">Planos de posts</span>
               <h2 className="h-lg">Escolha o ritmo que a sua rede aguenta manter</h2>
             </Reveal>
             <Reveal delay={60}>
