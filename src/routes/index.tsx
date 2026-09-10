@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VivieneLanding } from "@/components/landing/VivieneLanding";
 
-const TITLE = "Agência de Arte em Brumadinho | Viviene Diniz Design";
+const TITLE = "Agencia Diniz - Desenvolvimento web";
 const DESCRIPTION =
   "Agência de arte e design em Brumadinho (MG) com atendimento online para o mundo todo: social media, identidade visual, landing pages, sites, e-commerce e sistemas web.";
 const SITE_URL = "https://vivienediniz.site";
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL + "/" },
       { property: "og:locale", content: "pt_BR" },
-      { property: "og:site_name", content: "Viviene Diniz — Agência de Arte" },
+      { property: "og:site_name", content: "Agencia Diniz - Desenvolvimento web" },
       { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
-          name: "Viviene Diniz — Agência de Arte e Design",
+          name: "Agencia Diniz - Desenvolvimento web",
           description: DESCRIPTION,
           image: OG_IMAGE,
           url: SITE_URL + "/",
